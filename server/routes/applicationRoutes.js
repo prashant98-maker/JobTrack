@@ -1,11 +1,16 @@
 import express from 'express'
 import Application from '../models/Application.js'
+import authMiddleware from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
+router.use(authMiddleware)
+
 router.get('/', async (req, res) => {
   try {
-    const applications = await Application.find().sort({
+    const applications = await Application.find({
+      userId: req.userId,
+    }).sort({
       createdAt: -1,
     })
 
@@ -19,7 +24,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const application = await Application.create(req.body)
+    const application = await Application.create({
+      ...req.body,
+      userId: req.userId,
+    })
 
     res.status(201).json(application)
   } catch {
@@ -31,8 +39,11 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const application = await Application.findByIdAndUpdate(
-      req.params.id,
+    const application = await Application.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId: req.userId,
+      },
       req.body,
       {
         new: true,
@@ -56,9 +67,10 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const application = await Application.findByIdAndDelete(
-      req.params.id,
-    )
+    const application = await Application.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.userId,
+    })
 
     if (!application) {
       return res.status(404).json({
