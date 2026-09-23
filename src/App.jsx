@@ -1,5 +1,6 @@
-import { Route, Routes } from 'react-router-dom'
+﻿import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
 import Jobs from './pages/Jobs'
@@ -73,6 +74,8 @@ function App() {
           }
         />
       </Routes>
+
+      <Footer />
     </div>
   )
 }
