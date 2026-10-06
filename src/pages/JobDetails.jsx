@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getJobs } from '../services/jobApi'
 import { getArbeitnowJobs } from '../services/arbeitnowApi'
-import { createApplication } from '../services/applicationApi'
+import { getApplications, createApplication } from '../services/applicationApi'
 
 function JobDetails() {
   const { id } = useParams()
@@ -46,6 +46,14 @@ function JobDetails() {
         }
 
         setJob(foundJob)
+
+        const applications = await getApplications()
+
+        const alreadyTracked = applications.some(
+          (application) => application.jobUrl === foundJob.url
+        )
+        setTracked(alreadyTracked)
+
       } catch {
         setError('Unable to load job details')
       } finally {

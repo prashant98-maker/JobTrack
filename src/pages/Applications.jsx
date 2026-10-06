@@ -67,7 +67,7 @@ function Applications() {
     <main className="min-h-[calc(100vh-64px)]">
       <div className="max-w-6xl mx-auto px-4 py-8 sm:py-10">
 
-        {/* Header */}
+        
         <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-700 p-6 sm:p-8 text-white shadow-xl">
           <div className="relative z-10">
             <p className="text-blue-100 font-medium">
